@@ -14,6 +14,7 @@ function App() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -63,9 +64,28 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-layout">
+      <div className="developer-banner">
+        Developed by Mohaamad Ahamad
+      </div>
+      <div className="app-container">
+        {/* Mobile Header */}
+      <div className="mobile-header">
+        <button className="menu-btn" onClick={() => setIsSidebarOpen(true)}>
+          <Menu size={24} />
+        </button>
+        <div className="brand-name" style={{ fontSize: '1.2rem' }}>NUERA</div>
+        <div style={{ width: 24 }}></div>
+      </div>
+
+      {/* Sidebar Overlay */}
+      <div 
+        className={`sidebar-overlay ${isSidebarOpen ? 'open' : ''}`} 
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
       {/* Sidebar */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="logo-container">
             <img src={logo} alt="NUERA Logo" />
@@ -156,6 +176,7 @@ function App() {
           50% { opacity: 1; transform: scale(1); }
         }
       `}</style>
+      </div>
     </div>
   );
 }
