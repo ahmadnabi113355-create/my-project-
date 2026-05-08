@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, User, Menu, Plus, MessageSquare } from 'lucide-react';
 import './index.css';
 import logo from './assets/logo.png';
+import { generateResponse } from './aiService';
 
 function App() {
   const [messages, setMessages] = useState([
@@ -23,7 +24,7 @@ function App() {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputValue.trim()) return;
 
     const userMessage = {
@@ -36,16 +37,22 @@ function App() {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      // Get all messages including the one we just sent
+      const allMessages = [...messages, userMessage];
+      const aiResponseText = await generateResponse(allMessages);
+      
       const aiResponse = {
         id: Date.now() + 1,
         role: 'ai',
-        content: "I'm currently a demonstration interface, but I'm designed to process complex tasks efficiently. My capabilities can be expanded by connecting me to a backend intelligence model."
+        content: aiResponseText
       };
       setMessages(prev => [...prev, aiResponse]);
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   const handleKeyDown = (e) => {
