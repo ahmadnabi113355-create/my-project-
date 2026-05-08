@@ -66,7 +66,7 @@ function App() {
   return (
     <div className="app-layout">
       <div className="developer-banner">
-        Developed by Mohaamad Ahamad
+        Developed by MOHAMMAD AHAMD
       </div>
       <div className="app-container">
         {/* Mobile Header */}
